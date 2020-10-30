@@ -4,7 +4,8 @@ import { Toast } from 'vant';
 
 let _axios = axios.create({
     // 在这里配置请求头
-    baseURL: "http://120.53.31.103:84"     // 公共地址
+    baseURL: "https://wap.365msmk.com"     // 公共地址
+    // baseURL: "http://120.53.31.103:84"     // 公共地址
     // headers:{}     // 请求头
 })
 let id = window.localStorage.getItem('guid')
