@@ -157,6 +157,7 @@ export default {
       let { data: res } = await this.$http.banner();
       this.Banner = res.data;
     },
+    // 获取首页数据
     async appindex() {
       let { data: res } = await this.$http.appIndex();
       this.appIndex = res.data;
