@@ -35,7 +35,7 @@
     </div>
     <!-- 数据展示 -->
     <template v-for="(item, i) in appIndex">
-      <div v-if="item.channel_info.type == 3" class="box">
+      <div v-show="item.channel_info.type == 3" class="box">
         <p class="index-page">{{ item.channel_info.name }}</p>
         <div class="ot-content" v-for="(t, index) in item.list" :key="index">
           <div class="ot-item" @click="teacher(t.teacher_id)">
