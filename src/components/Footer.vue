@@ -17,7 +17,7 @@
         </li>
         <li
           :class="active == 1 ? 'active' : ''"
-          @click="$router.push('/kecheng')"
+          @click="$router.push('/teseke')"
         >
           <img
             :src="

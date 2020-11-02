@@ -24,114 +24,77 @@
           />
           <font>一对一辅导</font>
         </li>
-        <li>
+        <li @click="study">
           <img
             src="data:image/png;base64,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"
             alt=""
           />
-          <font>日历</font>
+          <font>学习日历</font>
         </li>
       </ul>
     </div>
     <!-- 数据展示 -->
-    <section>
-      <p class="index-page">{{ appIndex[0].channel_info.name }}</p>
-      <div
-        class="ot-content"
-        v-for="(item, index) in appIndex[0].list"
-        :key="index"
-      >
-        <div class="ot-item">
-          <img :src="item.teacher_avatar" alt="" />
-          <div>
-            <p>
-              <span>{{ item.teacher_name }}</span>
-            </p>
-            <p>
-              {{ item.introduction }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section>
-      <p class="index-page">{{ appIndex[1].channel_info.name }}</p>
-      <div
-        class="index-item-page"
-        v-for="(t, index) in appIndex[1].list"
-        :key="index"
-      >
-        <div class="ii-item">
-          <p class="ii-title">
-            <font>{{ t.title }}</font>
-          </p>
-          <div class="ii-time">
-            <p>共{{t.total_periods}}课时</p>
-          </div>
-          <div class="ii-teacher">
-            <div class="teacher-item">
-              <img alt="" :src="t.teachers_list[0].teacher_avatar"/>
-              <font>{{t.teachers_list[0].teacher_name}}</font>
+    <template v-for="(item, i) in appIndex">
+      <div v-if="item.channel_info.type == 3" class="box">
+        <p class="index-page">{{ item.channel_info.name }}</p>
+        <div class="ot-content" v-for="(t, index) in item.list" :key="index">
+          <div class="ot-item" @click="teacher(t.teacher_id)">
+            <img :src="t.teacher_avatar" alt="" />
+            <div>
+              <p>
+                <span>{{ t.teacher_name }}</span>
+              </p>
+              <p>
+                {{ t.introduction }}
+              </p>
             </div>
           </div>
-          <p class="ii-info">
-            <span>{{t.sales_num}}人已报名</span>
-            <font style="color: #44a426" v-if="t.price==0">免费</font>
-            <font style="color: #eb6100" v-if="t.price!=0">{{t.price}}.00</font>
-          </p>
-          <img :src="t.cover_img" alt="" class="has_buy" v-if="token"/>
         </div>
       </div>
-    </section>
-    <section>
-      <p class="index-page">{{ appIndex[4].channel_info.name }}</p>
-      <div
-        class="ot-content"
-        v-for="(item, index) in appIndex[4].list"
-        :key="index"
-      >
-        <div class="ot-item">
-          <img :src="item.teacher_avatar" alt="" />
-          <div>
-            <p>
-              <span>{{ item.teacher_name }}</span>
+      <div v-if="item.channel_info.type == 1" class="box">
+        <p class="index-page">{{ item.channel_info.name }}</p>
+        <div
+          class="index-item-page"
+          v-for="(t, index) in item.list"
+          :key="index"
+        >
+          <div class="ii-item" @click="$router.push(`/kecheng?id=${t.id}`)">
+            <p class="ii-title">
+              <font>{{ t.title }}</font>
             </p>
-            <p>
-              {{ item.introduction }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section>
-      <p class="index-page">{{ appIndex[3].channel_info.name }}</p>
-      <div
-        class="index-item-page"
-        v-for="(t, index) in appIndex[3].list"
-        :key="index"
-      >
-        <div class="ii-item">
-          <p class="ii-title">
-            <font>{{ t.title }}</font>
-          </p>
-          <div class="ii-time">
-            <p>共{{t.total_periods}}课时</p>
-          </div>
-          <div class="ii-teacher">
-            <div class="teacher-item">
-              <img alt="" :src="t.teachers_list[0].teacher_avatar"/>
-              <font>{{t.teachers_list[0].teacher_name}}</font>
+            <div class="ii-time">
+              <p>共{{ t.total_periods }}课时</p>
             </div>
+            <div class="ii-teacher">
+              <div class="teacher-item">
+                <img alt="" :src="t.teachers_list[0].teacher_avatar" />
+                <font>{{ t.teachers_list[0].teacher_name }}</font>
+              </div>
+            </div>
+            <p class="ii-info">
+              <span>{{ t.sales_num }}人已报名</span>
+              <font style="color: #44a426" v-if="t.price == 0">免费</font>
+              <font style="color: #eb6100" v-if="t.price != 0"
+                >{{ t.price }}.00</font
+              >
+            </p>
+            <img :src="t.cover_img" alt="" class="has_buy" v-if="token" />
           </div>
-          <p class="ii-info">
-            <span>{{t.sales_num}}人已报名</span>
-            <font style="color: #44a426" v-if="t.price==0">免费</font>
-            <font style="color: #eb6100" v-if="t.price!=0">{{t.price}}.00</font>
-          </p>
-          <img :src="t.cover_img" alt="" class="has_buy" v-if="token"/>
         </div>
       </div>
-    </section>
+    </template>
+    <!-- 未登录之前的弹框提示 -->
+    <van-overlay :show="show" @click="show = false">
+      <div class="wrapper" @click.stop>
+        <div class="block">
+          <i @click="show = false"></i>
+          <img src="https://wap.365msmk.com/img/feiji.decaf161.png" alt="" />
+          <p class="login-text">赶紧登录一下吧</p>
+          <p class="login-message">立即预约一对一辅导，浏览更多视频课程~</p>
+          <span @click="$router.push('/login')">立即登录</span>
+        </div>
+      </div>
+    </van-overlay>
   </div>
 </template>
 
@@ -143,7 +106,9 @@ export default {
     return {
       Banner: [],
       appIndex: [],
-      token:sessionStorage.getItem('token') || '',
+      token: sessionStorage.getItem("token") || "",
+      // 未登录的弹框
+      show: false,
     };
   },
   created() {},
@@ -163,11 +128,86 @@ export default {
       this.appIndex = res.data;
       console.log(this.appIndex);
     },
+    // 点击跳转讲师详情
+    teacher(id) {
+      console.log(id);
+      if (this.token) {
+        this.$router.push(`/teacher/?id=${id}`);
+        return false;
+      }
+      this.show = true;
+    },
+    // 学习日历
+    study() {
+      if (this.token) {
+        this.$router.push(`/kecheng/?id=${id}`);
+        return false;
+      }
+      this.show = true;
+    },
+    // 课程详情
+    cours(id) {},
   },
 };
 </script>
 
 <style scoped lang="scss">
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.block {
+  width: 75.46667vw;
+  height: 92.13333vw;
+  background: #fff;
+  border-radius: 4vw;
+  position: relative;
+  text-align: center;
+  > img {
+    width: 100%;
+    height: 60%;
+    border-radius: 4vw;
+  }
+  > i {
+    width: 3.2vw;
+    height: 3.2vw;
+    position: absolute;
+    top: 3.06667vw;
+    right: 3.46667vw;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAiCAYAAAA+stv/AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MzAyRDRBRjhGQzM0MTFFOEE5MjE5OENFRDA4QUUwMkEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MzAyRDRBRjdGQzM0MTFFOEE5MjE5OENFRDA4QUUwMkEiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDowRDA2NDMwNEQ2N0ExMUU4ODMwNEUwOEE3QzA3NDUwOSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDowRDA2NDMwNUQ2N0ExMUU4ODMwNEUwOEE3QzA3NDUwOSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pg9KkA8AAAKQSURBVHjaxJjbS1RRFMbPbKbUMughSDHoghJ2wxuIQT4kZJmZ4lB/RmFa/gveKfBheuoiaN6CHgq0Hn3wIUip1MGm20tQPYb4EOO34hvYHc7MOXvPnHHDz9ly9uy99lrrrI81kVQq5ezmiMTj8YP4bALfwIcCnXsRbINlhT+t4DmYBmcLcHgXmCNVYsBvUAROgRlQHeLhl8FjIF7/A7bEgNfgFhecBC9D8kQbL3gAJMBV8EXx4QNwh/NjYBE05Nnt86AUfASXwLo8UNqiUdDP+WEwC2rzcHg3mGKY5eYx8DX9ULkWD2ieOAqegdM5HN4OHoG9IAlugDV9gfL40qiWE1XgBRPUdFwBk3R7ksasuBepDF+WnOjh/AR4A+oMDu/QYi43bnHf3M8AGWPgLudl9ER9gMNjzPZiJlqnZHumxcpnsyHQy3kFk+lMlvXXwRPG/BO4ycRzbA2QMQJuc17JqlmdIeZPQQlvLDdf9dtcBYzpfZcRC6DGle2zLDIbjPn7IBtHDRJLjNjDsBwBr0Az53N0uxSZa8x6J98GyBim1waYmAvMdDl8kzFPmmwYtXi/B8FPMM6y7fBwkdjvppspywr3GfzV/t+mF5xCGNBFxRTX/6KsSrleshEwUwPSwlLC97tRq5hWAmZigJewyOfDXAQsqAF+wmItYEEMCCosVgLmZ4CRsNgImMqnsNgImMoSc2NhsRAwTwOshcVQwDwNiFFY9lFY2kxru4cRfZynBaw+kwFS4SZyEZYsAnZPS8z/OjDl6liKGPOYpduzCZj+is6wCfpnwAUt5gn2iishdEZjrg5MKuZxMaAc7Nc6loQT3tA7sHPgUJSvyHnwQ+9YQhxStt9SRd9FdvsHih0BBgAvyZ5zZX2xCwAAAABJRU5ErkJggg==);
+    background-size: 100%;
+    background-position: 50%;
+  }
+  > .login-text {
+    font-size: 4vw;
+    font-weight: 500;
+    color: #333;
+    line-height: 5.86667vw;
+  }
+  > .login-message {
+    font-size: 3.2vw;
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: #999;
+    line-height: 0.50667rem;
+    line-height: 5.06667vw;
+  }
+  > span {
+    display: inline-block;
+    width: 62.93333vw;
+    height: 10.66667vw;
+    background: #eb6100;
+    border-radius: 5.33333vw;
+    font-size: 4vw;
+    font-weight: 400;
+    color: #fff;
+    line-height: 10.66667vw;
+    margin-top: 7.6vw;
+  }
+}
 .content {
   height: 100%;
   background: #f0f2f5;
@@ -236,7 +276,7 @@ export default {
   height: 4.26667vw;
   background: #eb6100;
 }
-section {
+div.box {
   > .ot-content {
     padding: 1.33333vw 2.66667vw 5.33333vw;
     > .ot-item {

@@ -73,7 +73,7 @@ export default {
         this.$router.push("/wode");
         return false;
       }
-      Toast(res.data.msg);
+      Toast(res.msg);
     },
   },
 };

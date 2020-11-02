@@ -8,7 +8,7 @@ const routes = [
     path: "/", component: () => import('../views/home/Home.vue'),
     children: [
       { path: "/", name: "首页", component: () => import('../views/home/shouye'), meta: { active: 0, title: "每时每刻" } }, // 首页
-      { path: "/kecheng", name: "课程", component: () => import('../views/home/kecheng'), meta: { active: 1, title: "特色课" } }, // 首页
+      { path: "/teseke", name: "课程", component: () => import('../views/home/kecheng'), meta: { active: 1, title: "特色课" } }, // 首页
       { path: "/yueke", name: "约课记录", component: () => import('../views/home/yueke'), meta: { active: 2, title: "约课" } }, // 首页
       { path: "/lianxi", name: "练习", component: () => import('../views/home/lianxi'), meta: { active: 3, title: "练习" } }, // 首页
       {
@@ -28,6 +28,9 @@ const routes = [
   { path: "/logins", name: "验证码登录", component: () => import('../views/login/Logins'), meta: { title: "验证码登录" } },// 验证码登录
   { path: "/shezhi", name: "设置", component: () => import('../views/wode/shezhi'), meta: { title: "设置" } },// 设置页面
   { path: "/uppwd", name: "修改密码", component: () => import('../views/login/uppwd'), meta: { title: "设置密码" } },// 修改密码
+  { path: "/geren", name: "个人信息", component: () => import('../views/wode/geren'), meta: { title: "个人信息" } },// 个人信息
+  { path: "/teacher", name: "讲师详情", component: () => import('../views/shouye/teacher'), meta: { title: "讲师详情" } },// 讲师详情
+  { path: "/kecheng", name: "课程详情", component: () => import('../views/shouye/kecheng'), meta: { title: "课程详情" } },// 课程详情
 ]
 
 const router = new VueRouter({

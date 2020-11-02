@@ -5,7 +5,7 @@
     <div class="top-box">
       <div class="tab">
         <div class="info">
-          <section class="login">
+          <section class="login" @click="$router.push('/geren')">
             <div class="attr">
               <img
                 src="https://msmk2019.oss-cn-shanghai.aliyuncs.com/uploads/image/2020k0LJ1Nni2z1603939323.jpg"
