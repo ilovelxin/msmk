@@ -34,10 +34,10 @@
       </ul>
     </div>
     <!-- 数据展示 -->
-    <template v-for="(item, i) in appIndex">
+    <div v-for="(item, i) in appIndex" :key="i">
       <div v-show="item.channel_info.type == 3" class="box">
         <p class="index-page">{{ item.channel_info.name }}</p>
-        <div class="ot-content" v-for="(t, index) in item.list" :key="index">
+        <div class="ot-content" v-for="t in item.list" :key="t.teacher_id">
           <div class="ot-item" @click="teacher(t.teacher_id)">
             <img :src="t.teacher_avatar" alt="" />
             <div>
@@ -53,11 +53,7 @@
       </div>
       <div v-if="item.channel_info.type == 1" class="box">
         <p class="index-page">{{ item.channel_info.name }}</p>
-        <div
-          class="index-item-page"
-          v-for="(t, index) in item.list"
-          :key="index"
-        >
+        <div class="index-item-page" v-for="t in item.list" :key="t.id">
           <div class="ii-item" @click="$router.push(`/kecheng?id=${t.id}`)">
             <p class="ii-title">
               <font>{{ t.title }}</font>
@@ -75,14 +71,14 @@
               <span>{{ t.sales_num }}人已报名</span>
               <font style="color: #44a426" v-if="t.price == 0">免费</font>
               <font style="color: #eb6100" v-if="t.price != 0"
-                >{{ t.price }}.00</font
+                >{{ t.price / 100 }}.00</font
               >
             </p>
             <img :src="t.cover_img" alt="" class="has_buy" v-if="token" />
           </div>
         </div>
       </div>
-    </template>
+    </div>
     <!-- 未登录之前的弹框提示 -->
     <van-overlay :show="show" @click="show = false">
       <div class="wrapper" @click.stop>
@@ -126,7 +122,6 @@ export default {
     async appindex() {
       let { data: res } = await this.$http.appIndex();
       this.appIndex = res.data;
-      console.log(this.appIndex);
     },
     // 点击跳转讲师详情
     teacher(id) {

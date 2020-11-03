@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -13,11 +15,11 @@ export default {
   created() {},
   mounted() {},
   methods: {},
-  watch:{
-    $route(to){
-      document.title=to.meta.title
-    }
-  }
+  watch: {
+    $route(to) {
+      document.title = to.meta.title;
+    },
+  },
 };
 </script>
 

@@ -13,10 +13,19 @@
       <!-- 课程详情 -->
       <div class="cd-info">
         <p class="info-title">{{ co_obj.info.title }}</p>
-        <i></i>
+        <i
+          @click="co_col(co_obj.info.is_collect, co_obj.info.collect_id)"
+          v-if="co_obj.info.is_collect == 0"
+        ></i>
+        <span @click="co_col(co_obj.info.is_collect, co_obj.info.collect_id)"
+          ><van-icon
+            name="star"
+            color="#eb6100"
+            v-if="co_obj.info.is_collect == 1"
+        /></span>
         <p
           class="info-price"
-          style="color: #ee1f1f"
+          style="color: green"
           v-if="co_obj.info.price == 0"
         >
           免费
@@ -30,12 +39,12 @@
         </p>
         <div>
           <p>
-            共{{ co_obj.info.store_num }}课时 |
+            共{{ co_obj.info.total_periods }}课时 |
             {{ co_obj.info.sales_num }}人已报名
           </p>
           <p>
-            开课时间：{{ co_obj.info.start_play_date }} -
-            {{ co_obj.info.end_play_date }}
+            开课时间：{{ co_obj.info.start_play_date | setTime }} -
+            {{ co_obj.info.end_play_date | setTime }}
           </p>
         </div>
       </div>
@@ -73,19 +82,20 @@
         <div class="com-item">
           <div>
             <ul>
-              <li>
+              <li v-for="item in co_comment.list" :key="item.id">
                 <div>
-                  <img
-                    src="https://msmk2019.oss-cn-shanghai.aliyuncs.com/uploads/image/2020sf2Y6mVJGQ1595206082.jpg"
-                    alt=""
-                  />
+                  <img :src="item.avatar" alt="" />
                   <div>
                     <div class="info">
-                      <span class="name">嘻哈</span>
-                      <div><van-rate v-model="value" size="0.12rem" /></div>
-                      <span class="time">2020-07-23 15:23</span>
+                      <span class="name">{{ item.nickname }}</span>
+                      <div>
+                        <van-rate v-model="item.grade" size="0.12rem" />
+                      </div>
+                      <span class="time">{{
+                        (item.created_at * 1000) | setTime
+                      }}</span>
                     </div>
-                    <div class="btom">6666666</div>
+                    <div class="btom">{{ item.content }}</div>
                   </div>
                 </div>
               </li>
@@ -98,7 +108,7 @@
     <van-overlay :show="show" @click="show = false">
       <div class="wrapper" @click.stop>
         <div class="block">
-          <div id="qrCode" ref="qrCodeDiv"></div>
+          <div id="qrCode" ref="qrCodeDiv"></div>
         </div>
       </div>
     </van-overlay>
@@ -107,6 +117,7 @@
 
 
 <script>
+import { Toast } from "vant";
 import appHeader from "../../components/Header";
 export default {
   name: "",
@@ -114,9 +125,10 @@ export default {
   data() {
     return {
       value: 2,
-      id: this.$route.query.id,
-      co_obj: {},
-      show: false,
+      id: this.$route.query.id, // 课程id
+      co_obj: {}, // 课程信息
+      show: false, // 分享弹框
+      co_comment: {}, // 课程评价
     };
   },
   created() {},
@@ -130,6 +142,7 @@ export default {
     async co() {
       let { data: res } = await this.$http.courese(this.id);
       this.co_obj = res.data;
+      console.log(this.co_obj);
     },
     // 获取课程评价
     async co_com() {
@@ -139,7 +152,7 @@ export default {
         page: 1,
       };
       let { data: res } = await this.$http.co_com(obj);
-      console.log(res);
+      this.co_comment = res.data;
     },
     // 生成二维码
     qrcode() {
@@ -152,11 +165,54 @@ export default {
         correctLevel: this.$qrCode.CorrectLevel.L, //容错率，L/M/H
       });
     },
+    // 课程收藏
+    async co_col(flag, id) {
+      if (flag == 0) {
+        let obj = {
+          course_basis_id: this.id,
+          type: 1,
+        };
+        let { data: res } = await this.$http.co_col(obj);
+        Toast("收藏成功");
+        this.co();
+      } else {
+        let { data } = await this.$http.cel_col(id);
+        Toast("已取消");
+        this.co();
+      }
+    },
+  },
+  filters: {
+    setTime(value) {
+      let oldDate = new Date(value);
+      let newDate = new Date();
+      var dayNum = "";
+      var getTime = (newDate.getTime() - oldDate.getTime()) / 1000;
+      let year = oldDate.getFullYear();
+      let month = oldDate.getMonth() + 1;
+      let day = oldDate.getDate();
+      let hour = oldDate.getHours();
+      let minute = oldDate.getMinutes();
+      let second = oldDate.getSeconds();
+      return (
+        dayNum +
+        " " +
+        year +
+        "-" +
+        month +
+        "-" +
+        day +
+        " " +
+        hour +
+        ":" +
+        minute
+      );
+    },
   },
 };
 </script>
 
-<style scoped lang="scss">
+<style type="text/scss" scoped lang="scss" >
 .cd-body {
   margin-bottom: 11.8vw;
 }
@@ -176,6 +232,7 @@ export default {
     line-height: 6.13333vw;
   }
   > i {
+    font-size: 4.26667vw;
     position: absolute;
     right: 2.66667vw;
     top: 1.33333vw;
@@ -183,6 +240,15 @@ export default {
     height: 6.66667vw;
     background: url(data:image/png;base64,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)
       no-repeat 50%;
+    background-size: 4.8vw 4.8vw;
+  }
+  > span {
+    font-size: 4.26667vw;
+    position: absolute;
+    right: 2.66667vw;
+    top: 1.33333vw;
+    width: 6.66667vw;
+    height: 6.66667vw;
     background-size: 4.8vw 4.8vw;
   }
   > .info-price {

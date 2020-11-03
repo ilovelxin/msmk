@@ -69,7 +69,7 @@ export default {
       let { data: res } = await this.$http.login(obj);
       if (res.code == 200) {
         Toast("登录成功");
-        sessionStorage.setItem("token", `${res.dataremember_token}`);
+        sessionStorage.setItem("token", res.data.remember_token);
         this.$router.push("/wode");
         return false;
       }

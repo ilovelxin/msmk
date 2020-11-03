@@ -18,8 +18,8 @@
           </p>
           <p>男&emsp;{{ tc_obj.teacher.introduction }}</p>
         </div>
-        <button v-if="tc_obj.flag == 0" @click="guan">关注</button>
-        <p v-if="tc_obj.flag != 0" @click="guan">已关注</p>
+        <button v-if="tc_obj.flag == 2" @click="guan(tc_obj.flag)">关注</button>
+        <p v-if="tc_obj.flag != 2" @click="guan(tc_obj.flag)">已关注</p>
       </div>
       <div class="ti-lable"></div>
     </div>
@@ -37,8 +37,8 @@
           <div class="index-page">
             <div
               class="ii-item"
-              v-for="(item, index) in co_obj.list"
-              :key="index"
+              v-for="item in co_obj.list"
+              :key="item.id"
             >
               <p class="ii-title">
                 {{ item.title }}
@@ -60,7 +60,7 @@
               <img :src="item.cover_img" alt="" />
             </div>
           </div>
-          <van-empty description="暂无课程" v-if="co_obj.list.length == 0" />
+          <van-empty description="暂无课程" v-if="leg == 0" />
         </van-tab>
         <van-tab title="学员评价"><van-empty description="暂无评价" /></van-tab>
       </van-tabs>
@@ -81,6 +81,7 @@ export default {
       active: 0, // 当前下标
       tc_obj: {}, // 讲师信息
       co_obj: [], // 主讲课程
+      leg: 0,
     };
   },
   created() {},
@@ -94,6 +95,7 @@ export default {
     async tc() {
       let { data: res } = await this.$http.teacher(this.id);
       this.tc_obj = res.data;
+      console.log(res);
     },
     // 讲师主讲课程
     async course() {
@@ -104,13 +106,13 @@ export default {
       };
       let { data: res } = await this.$http.mainCourse(obj);
       this.co_obj = res.data;
-      console.log(this.co_obj);
+      this.leg=this.co_obj.list.length
     },
     // 关注老师
-    async guan() {
-        let {data:res} = await this.$http.collect(this.id)
-        // console.log(res);
-        // this.tc()
+    async guan(flag) {
+      let { data: res } = await this.$http.collect(this.id);
+      console.log(res);
+      this.tc();
     },
   },
 };

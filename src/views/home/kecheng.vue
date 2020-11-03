@@ -37,6 +37,10 @@ export default {
     async course() {
       let { data: res } = await this.$http.courseClassify();
       console.log(res);
+      let obj = res.data;
+      this.option = obj.appCourseType.map((item) => {
+        return {id:item.id,text:item.name,is_show:item.is_show}
+      });
     },
   },
 };

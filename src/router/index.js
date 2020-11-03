@@ -31,6 +31,8 @@ const routes = [
   { path: "/geren", name: "个人信息", component: () => import('../views/wode/geren'), meta: { title: "个人信息" } },// 个人信息
   { path: "/teacher", name: "讲师详情", component: () => import('../views/shouye/teacher'), meta: { title: "讲师详情" } },// 讲师详情
   { path: "/kecheng", name: "课程详情", component: () => import('../views/shouye/kecheng'), meta: { title: "课程详情" } },// 课程详情
+  { path: "/my-collent", name: "我的收藏", component: () => import('../views/wode/collent'), meta: { title: "我的收藏" } },// 我的收藏
+  { path: "/my-teacher", name: "我的关注", component: () => import('../views/wode/teacher'), meta: { title: "我的关注" } },// 我的关注
 ]
 
 const router = new VueRouter({
