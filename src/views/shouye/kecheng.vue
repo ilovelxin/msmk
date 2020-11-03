@@ -105,11 +105,10 @@
       </div>
     </div>
     <div class="btn"><span>立即报名</span></div>
+
     <van-overlay :show="show" @click="show = false">
-      <div class="wrapper" @click.stop>
-        <div class="block">
-          <div id="qrCode" ref="qrCodeDiv"></div>
-        </div>
+      <div class="wrapper" @click.stop="show=false">
+        <div class="block"></div>
       </div>
     </van-overlay>
   </div>
@@ -135,14 +134,12 @@ export default {
   mounted() {
     this.co();
     this.co_com();
-    this.qrcode();
   },
   methods: {
     //   获取课程详细信息
     async co() {
       let { data: res } = await this.$http.courese(this.id);
       this.co_obj = res.data;
-      console.log(this.co_obj);
     },
     // 获取课程评价
     async co_com() {
@@ -153,17 +150,6 @@ export default {
       };
       let { data: res } = await this.$http.co_com(obj);
       this.co_comment = res.data;
-    },
-    // 生成二维码
-    qrcode() {
-      let qrcode = new this.$p("qrcode", {
-        text: window.location.href,
-        width: 200,
-        height: 200,
-        colorDark: "#333333", //二维码颜色
-        colorLight: "#ffffff", //二维码背景色
-        correctLevel: this.$qrCode.CorrectLevel.L, //容错率，L/M/H
-      });
     },
     // 课程收藏
     async co_col(flag, id) {

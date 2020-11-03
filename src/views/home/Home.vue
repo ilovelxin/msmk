@@ -1,13 +1,15 @@
 <template>
     
-  <div class="box"> 
-      <router-view></router-view>
-      <app-footer></app-footer>
+  <div class="box">
+     
+    <router-view></router-view>
+    <app-footer></app-footer>
   </div>
 </template>
 
 
 <script>
+import me from '../../js/meiqia'
 import appFooter from "../../components/Footer";
 export default {
   name: "",
@@ -22,7 +24,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.box{
-    background: #eee;
+.box {
+  background:rgb(240, 242, 245);
+  min-height: 100%;
 }
 </style>

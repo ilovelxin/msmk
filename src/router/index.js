@@ -33,6 +33,8 @@ const routes = [
   { path: "/kecheng", name: "课程详情", component: () => import('../views/shouye/kecheng'), meta: { title: "课程详情" } },// 课程详情
   { path: "/my-collent", name: "我的收藏", component: () => import('../views/wode/collent'), meta: { title: "我的收藏" } },// 我的收藏
   { path: "/my-teacher", name: "我的关注", component: () => import('../views/wode/teacher'), meta: { title: "我的关注" } },// 我的关注
+  { path: "/rili", name: "学习日历", component: () => import('../views/shouye/rili'), meta: { title: "学习日历" } },// 学习日历
+  { path: "/search", name: "搜索", component: () => import('../views/shouye/search'), meta: { title: "搜索" } },// 搜索
 ]
 
 const router = new VueRouter({

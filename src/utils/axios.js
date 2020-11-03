@@ -9,7 +9,7 @@ let guid = Guid.NewGuid().toString("D")
 // instance 新创建的一个axios 赋值给instance
 const instance = axios.create({
     baseURL: 'http://120.53.31.103:84',
-    // baseURL:'https://wap.365msmk.com',
+    //  baseURL:'https://www.365msmk.com',
     timeout: "7000"
 })
 // 请求拦截器

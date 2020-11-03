@@ -25,15 +25,15 @@
             <p class="name">我的特色课</p>
             <p class="note">已购特色课程的学习</p>
           </div>
-          <div class="mein-item">
+          <div class="mein-item" @click="$router.push('/yueke')">
             <p class="count">{{user.oto}}</p>
-            <p class="name">我的特色课</p>
-            <p class="note">已购特色课程的学习</p>
+            <p class="name">一对一辅导</p>
+            <p class="note">我的一对一老师辅导</p>
           </div>
           <div class="mein-item">
-            <p class="count">{{user.integral}}</p>
-            <p class="name">我的特色课</p>
-            <p class="note">已购特色课程的学习</p>
+            <p class="count">{{user.integral}}.00</p>
+            <p class="name">我的学习币</p>
+            <p class="note">查看剩余学习币</p>
           </div>
         </div>
         <div class="to-set"><span>去约课</span></div>
