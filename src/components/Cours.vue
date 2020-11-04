@@ -5,14 +5,14 @@
       class="item-list"
       v-for="item in list"
       :key="item.course_id"
-      @click.capture="$router.push(`/kecheng?id=${item.course_id}`)"
+      @click="$router.push(`/kecheng?id=${item.course_id}`)"
     >
       <div class="content-icon">
         <van-icon
           name="star"
           color="#eb6100"
           v-if="!show"
-          @click.self="can(item.collect_id)"
+          @click.stop="can(item.collect_id)"
         />
       </div>
       <div class="top">

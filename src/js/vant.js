@@ -2,7 +2,7 @@ import Vue from "vue"
 import 'vant/lib/index.css';
 import {
     Button, Tabbar, TabbarItem, Swipe, SwipeItem, Sticky, Icon, DropdownMenu, DropdownItem, ActionSheet, Overlay,
-    Tab, Tabs, Empty, List, Rate,Toast,Calendar
+    Tab, Tabs, Empty, List, Rate,Calendar,Progress,Uploader,Field,RadioGroup, Radio,Cell, CellGroup
 } from 'vant'
 Vue.use(Button)
 Vue.use(Tabbar)
@@ -20,5 +20,11 @@ Vue.use(Tabs)
 Vue.use(Empty)
 Vue.use(List)
 Vue.use(Rate)
-Vue.use(Toast)
 Vue.use(Calendar)
+Vue.use(Progress)
+Vue.use(Uploader)
+Vue.use(Field)
+Vue.use(RadioGroup)
+Vue.use(Radio)
+Vue.use(Cell)
+Vue.use(CellGroup)

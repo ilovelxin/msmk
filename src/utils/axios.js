@@ -8,9 +8,9 @@ let guid = Guid.NewGuid().toString("D")
 // export default instance;
 // instance 新创建的一个axios 赋值给instance
 const instance = axios.create({
-    baseURL: 'http://120.53.31.103:84',
-    //  baseURL:'https://www.365msmk.com',
-    timeout: "7000"
+    // baseURL: 'http://120.53.31.103:84',
+    baseURL: 'https://www.365msmk.com',
+    // timeout: "7000"
 })
 // 请求拦截器
 instance.interceptors.request.use((config) => {
@@ -28,7 +28,9 @@ instance.interceptors.request.use((config) => {
 })
 // 响应拦截器
 instance.interceptors.response.use((res) => {
-    Toast.clear()
+    if (res.data.code == 200) {
+        Toast.clear()
+    }
     return res
 })
 // 将新创建的一个axios导出

@@ -17,7 +17,7 @@
           />
           <font>特色课</font>
         </li>
-        <li >
+        <li>
           <img
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAA8CAYAAADRy2JxAAAEDElEQVRoQ+2aTWhUVxTH/+fNRyYmE78WirTQFgwiXSjFjWDRlR+k0CIOlJiaVk1VNGrGmBZaOy24EXSmlBqk2inUyaRZKM3MFFxoNt1VQXEhiogSSKwL48ckMTNz7yk3VQntTN7Me2HezJv3tveee+7vnnP+9773LgFAaGjIPZ4eeVsCX4KwCZKXgEhTbRX3EP4mxiXp1b46tfHjYTPzIwX+/PloO4i/AfCGmcHKZcsAa6ALYnKiIxzY9dioX+pOxJZL4Eq1gM8AfeRyy/dPbG67bRg+mIxFwWg3OoBldkTMLFaf+qDthtE5UDDRNwrwUqMDWGnHkKvMwQ/GBAiVKW46K2sePhFjK6NnxrcDb67mncibyT7LbJ20d9LeWPJR0KZq352KLmX2vguX5n+9NDmAmB7kXqTvh7ftHLMlfFeqv5lYXARjZZ6cEAD+AmG/LeGDidhBAJFCxaBejEAYtCV8VzL2NTG+m1UJCE9rFx6AA29so7DeqtAhp6i0dyJvw33eibye2jtp76S99cptZAaO2ud5pXUEzxG82YvJOd4aEZtKsHEEr0YFb0oKXhP+cPvN/2ZhLaj9XUHYGGlpvVcz8OoTFAETID7pn/AeDwUCmfLAT/8Wxp9EuE7M2XKLHhMxMacl+NaLSW/qdCCQzjeHuU97IgbzOZGRx0T92OOp4TpZbvhlzc0cWr9B/VWe9efqnMIzIEAUnwR39ra0jpUbulR/cwf/b8TPC4/siWxqGy11Ilb0nxt4VWPA2Vx26mjko0+fWAFixKdpeJXqBPSJXKazmsCnr9WNj/wiGa16C5f/bK+T6ocuRhdoLs8KaFSv56Cc7STIzRqvJaJOMC/S8/1/eAUO/klkMz35In7093N+ofl6AV4PaC49B2VtZ3U9D00gqgOritV7q0vGnoAxX3UrJtW/+CO+OivkNfX9T2/wSm+nI6l4J0vZw0ATgfpFRhyLbC2s6l2D51uIKFHpYMXMj7YNDHjfdE++xW6PJ+eWwz9s2f5sNkNbwRezQjP7dCV/20Ccu2yLtC8V/lAy9o6LoWp+Qam2lda/ZNHqSJyZ59caf4ZEoNqjXzK8it7h5K/rNNbOMrCcqlj1DcGrPfTwYP97mov3QvJmAEuq8f6uMfiXxbtv4MdGX8PiZaRhviayPstqmqlegrYQcIBR/CVqU/CWwRZwfCQR382QYQDzitEjW8F3XD3jaRpp3AtCiIGFesGxFbyCDQ1FfemJuh2QfFqvBGwH/yrawVTfLkiEAW4oVAK2hVcl4H/o30PM3xYqAdvCqwxoH4r6Fo97PyFGb74SsDX8qxLoTsY/E1J+D0LDjEOZrAn46V1gtPFzxvSV1Je7AN2pCfjXJZCu3wqSx8H8yEXo+Qf3I4hni2PDwwAAAABJRU5ErkJggg=="
             alt=""
@@ -35,10 +35,16 @@
     </div>
     <!-- 数据展示 -->
     <div v-for="(item, i) in appIndex" :key="i">
+      <!-- 讲师 -->
       <div v-show="item.channel_info.type == 3" class="box">
         <p class="index-page">{{ item.channel_info.name }}</p>
-        <div class="ot-content" v-for="t in item.list" :key="t.teacher_id">
-          <div class="ot-item" @click="teacher(t.teacher_id)">
+        <div class="ot-content">
+          <div
+            class="ot-item"
+            v-for="t in item.list"
+            :key="t.teacher_id"
+            @click="teacher(t.teacher_id)"
+          >
             <img :src="t.teacher_avatar" alt="" />
             <div>
               <p>
@@ -51,10 +57,39 @@
           </div>
         </div>
       </div>
+      <!-- 明星讲师 -->
+      <div v-show="item.channel_info.type == 4" class="box">
+        <p class="index-page">{{ item.channel_info.name }}</p>
+        <div class="ot-content">
+          <div
+            class="ot-item"
+            v-for="t in item.list"
+            :key="t.teacher_id"
+            @click="teacher(t.teacher_id)"
+          >
+            <img :src="t.teacher_avatar" alt="" />
+            <div>
+              <p>
+                <span>{{ t.teacher_name }}</span>
+                <font style="font-size: 2.93333vw; color: #ea7a2f">{{t.level_name}}</font>
+              </p>
+              <p>
+                {{ t.introduction }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 课程 -->
       <div v-if="item.channel_info.type == 1" class="box">
         <p class="index-page">{{ item.channel_info.name }}</p>
-        <div class="index-item-page" v-for="t in item.list" :key="t.id">
-          <div class="ii-item" @click="$router.push(`/kecheng?id=${t.id}`)">
+        <div class="index-item-page">
+          <div
+            class="ii-item"
+            v-for="t in item.list"
+            :key="t.id"
+            @click="$router.push(`/kecheng?id=${t.id}`)"
+          >
             <p class="ii-title">
               <font>{{ t.title }}</font>
             </p>
@@ -74,7 +109,12 @@
                 >{{ t.price / 100 }}.00</font
               >
             </p>
-            <img :src="t.cover_img" alt="" class="has_buy" v-if="token" />
+            <img
+              src="https://wap.365msmk.com/img/has-buy.6cfbd83d.png"
+              alt=""
+              class="has_buy"
+              v-if="t.has_buy == 1"
+            />
           </div>
         </div>
       </div>

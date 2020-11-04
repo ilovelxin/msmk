@@ -20,7 +20,7 @@
           </section>
         </div>
         <div class="mein">
-          <div class="mein-item">
+          <div class="mein-item" @click="$router.push('/my-study')">
             <p class="count">{{user.courses}}</p>
             <p class="name">我的特色课</p>
             <p class="note">已购特色课程的学习</p>

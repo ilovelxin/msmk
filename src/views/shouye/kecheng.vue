@@ -61,7 +61,7 @@
       <!-- 课程介绍 -->
       <div class="cd-tro">
         <p>课程介绍</p>
-        <div></div>
+        <div v-html="co_obj.info.course_details"></div>
       </div>
       <!-- 课程大纲 -->
       <div class="cd-list">
@@ -70,7 +70,7 @@
           <section>
             <div>
               <span>回放</span>
-              第一讲第一课时
+              <font v-html="co_obj.info.course_details"></font>
             </div>
             <p>李青&emsp;<span>03月09日 18:30 - 19:30</span></p>
           </section>
@@ -89,7 +89,12 @@
                     <div class="info">
                       <span class="name">{{ item.nickname }}</span>
                       <div>
-                        <van-rate v-model="item.grade" size="0.12rem" />
+                        <van-rate
+                          v-model="item.grade"
+                          size="0.12rem"
+                          color="#ffd21e"
+                          readonly
+                        />
                       </div>
                       <span class="time">{{
                         (item.created_at * 1000) | setTime
@@ -104,10 +109,15 @@
         </div>
       </div>
     </div>
-    <div class="btn"><span>立即报名</span></div>
+    <!-- 报名 -->
+    <div class="btn">
+      <span v-if="co_obj.info.is_buy == 0" @click="baoming"
+        >立即报名</span
+      ><span v-if="co_obj.info.is_buy != 0" @click="$router.push(`/xuexi-info?id=${co_obj.info.id}`)">立即学习</span>
+    </div>
 
     <van-overlay :show="show" @click="show = false">
-      <div class="wrapper" @click.stop="show=false">
+      <div class="wrapper" @click.stop="show = false">
         <div class="block"></div>
       </div>
     </van-overlay>
@@ -165,6 +175,20 @@ export default {
         let { data } = await this.$http.cel_col(id);
         Toast("已取消");
         this.co();
+      }
+    },
+    // 报名
+    async baoming() {
+      let obj = {
+        shop_id: this.id,
+        type: 5,
+      };
+      let { data: res } = await this.$http.baoming(obj);
+      if (res.code == 200) {
+        Toast("报名成功");
+        this.co();
+      } else {
+        Toast(res.msg);
       }
     },
   },
@@ -332,6 +356,8 @@ export default {
         font-family: PingFangSC-Regular;
         font-weight: 400;
         color: #595959;
+        display: flex;
+        align-items: center;
         > span {
           display: inline-block;
           margin-right: 1.33333vw;
@@ -345,6 +371,9 @@ export default {
           line-height: 4.8vw;
           text-align: center;
           background: #ea7a2f;
+        }
+        > font {
+          flex: 1;
         }
       }
       > div::after {

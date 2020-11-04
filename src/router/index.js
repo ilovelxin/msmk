@@ -24,17 +24,21 @@ const routes = [
       }, // 首页
     ]
   },
-  { path: "/login", name: "密码登录", component: () => import('../views/login/Login'), meta: { title: "密码登录" } },// 密码登录
-  { path: "/logins", name: "验证码登录", component: () => import('../views/login/Logins'), meta: { title: "验证码登录" } },// 验证码登录
-  { path: "/shezhi", name: "设置", component: () => import('../views/wode/shezhi'), meta: { title: "设置" } },// 设置页面
-  { path: "/uppwd", name: "修改密码", component: () => import('../views/login/uppwd'), meta: { title: "设置密码" } },// 修改密码
-  { path: "/geren", name: "个人信息", component: () => import('../views/wode/geren'), meta: { title: "个人信息" } },// 个人信息
-  { path: "/teacher", name: "讲师详情", component: () => import('../views/shouye/teacher'), meta: { title: "讲师详情" } },// 讲师详情
-  { path: "/kecheng", name: "课程详情", component: () => import('../views/shouye/kecheng'), meta: { title: "课程详情" } },// 课程详情
-  { path: "/my-collent", name: "我的收藏", component: () => import('../views/wode/collent'), meta: { title: "我的收藏" } },// 我的收藏
-  { path: "/my-teacher", name: "我的关注", component: () => import('../views/wode/teacher'), meta: { title: "我的关注" } },// 我的关注
-  { path: "/rili", name: "学习日历", component: () => import('../views/shouye/rili'), meta: { title: "学习日历" } },// 学习日历
-  { path: "/search", name: "搜索", component: () => import('../views/shouye/search'), meta: { title: "搜索" } },// 搜索
+  { path: "/login", name: "密码登录", component: () => import('../views/login/Login'), meta: { title: "密码登录" } },
+  { path: "/logins", name: "验证码登录", component: () => import('../views/login/Logins'), meta: { title: "验证码登录" } },
+  { path: "/shezhi", name: "设置", component: () => import('../views/wode/shezhi'), meta: { title: "设置" } },
+  { path: "/uppwd", name: "修改密码", component: () => import('../views/login/uppwd'), meta: { title: "设置密码" } },
+  { path: "/geren", name: "个人信息", component: () => import('../views/wode/geren'), meta: { title: "个人信息" } },
+  { path: "/teacher", name: "讲师详情", component: () => import('../views/shouye/teacher'), meta: { title: "讲师详情" } },
+  { path: "/kecheng", name: "课程详情", component: () => import('../views/shouye/kecheng'), meta: { title: "课程详情" } },
+  { path: "/my-collent", name: "我的收藏", component: () => import('../views/wode/collent'), meta: { title: "我的收藏" } },
+  { path: "/my-teacher", name: "我的关注", component: () => import('../views/wode/teacher'), meta: { title: "我的关注" } },
+  { path: "/rili", name: "学习日历", component: () => import('../views/shouye/rili'), meta: { title: "学习日历" } },
+  { path: "/search", name: "搜索", component: () => import('../views/shouye/search'), meta: { title: "搜索" } },
+  { path: "/xuexi-info", name: "学习详情", component: () => import('../views/wode/xuexi'), meta: { title: "学习详情" } },
+  { path: "/my-study", name: "我的学习", component: () => import('../views/wode/myStudy'), meta: { title: "我的学习" } },
+  { path: "/set-name", name: "修改用户名", component: () => import('../views/wode/setname'), meta: { title: "修改用户名" } },
+  { path: "/sex", name: "修改性别", component: () => import('../views/wode/sex'), meta: { title: "修改性别" } },
 ]
 
 const router = new VueRouter({

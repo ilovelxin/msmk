@@ -1,6 +1,6 @@
 <template>
     
-  <div style="height: 100%; background: #eee">
+  <div>
     <app-header>
       <div slot="left" @click="$router.go(-1)">
         <van-icon name="arrow-left" />
@@ -12,44 +12,65 @@
     <ul>
       <li @click="show = true">
         <span>头像</span>
-        <span
-          ><img
-            src="https://msmk2019.oss-cn-shanghai.aliyuncs.com/uploads/image/2020k0LJ1Nni2z1603939323.jpg"
-            alt=""
-        /></span>
+        <span><img :src="user.avatar" alt="" /></span>
       </li>
-      <li>
+      <li @click="$router.push(`/set-name?name=${user.nickname}`)">
         <span>昵称</span>
-        <span>小绵羊</span>
+        <span>{{ user.nickname }}</span>
       </li>
       <li id="mobile">
         <span>手机号</span>
         <span>18035825422</span>
       </li>
+      <li @click="$router.push(`/sex?sex=${user.sex}`)">
+        <span>性别</span>
+        <span v-if="user.sex==0">男</span>
+        <span v-else>女</span>
+      </li>
       <li>
         <span>出生日期</span>
-        <span>2001-12-17</span>
+        <span v-if="user.birthday!=0">{{user.birthday}}</span>
+        <span v-else>请选择</span>
       </li>
       <li>
         <span>所在城市</span>
-        <span>北京，北京市，昌平区</span>
+        <span v-if="user.province_name!=''">{{user.province_name}}，{{user.city_name}}，{{user.district_name}}</span>
+        <span v-else>请选择</span>
       </li>
       <li>
         <span>学科</span>
-        <span>语文，数学</span>
+        <span><font v-for="item in user.attr" :key="item.attr_val_id" v-show="item.attr_id==2">{{item.attr_value}},</font></span>
       </li>
       <li>
         <span>年级</span>
-        <span>请选择</span>
+        <span v-if="user.attr[0].attr_id==1">{{user.attr[0].attr_value}}</span>
+        <span v-else>请选择</span>
       </li>
     </ul>
-    <van-action-sheet
-      v-model="show"
-      :actions="actions"
-      @select="onSelect"
-      cancel-text="取消"
-      close-on-click-action
-    />
+
+    <van-action-sheet v-model="show" cancel-text="取消" close-on-click-action>
+      <ul class="pho">
+        <li>
+          拍照
+          <input
+            type="file"
+            accept="image/*"
+            capture="camera"
+            id="takePhoto"
+            @change="takePhoto"
+          />
+        </li>
+        <li>
+          从手机相册中选择
+          <input
+            type="file"
+            accept="image/*"
+            id="takePhoto"
+            @change="takePhoto"
+          />
+        </li>
+      </ul>
+    </van-action-sheet>
   </div>
 </template>
 
@@ -63,24 +84,30 @@ export default {
   data() {
     return {
       show: false,
-      actions: [
-        { name: "相机", index: 0 },
-        { name: "从相册选择", index: 1 },
-      ],
+      user: {}, // 用户信息
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.userinfo();
+  },
   methods: {
     // 个人信息获取
     async userinfo() {
-      let { data: res } = await this.$http.userInfo();
-      console.log(res);
+      let { data: res } = await this.$http.users();
+      this.user = res.data;
+      console.log(this.user);
     },
-    onSelect(item) {
-      // 默认情况下点击选项时不会自动收起
-      // 可以通过 close-on-click-action 属性开启自动收起
-      this.show = false;
+    async takePhoto() {
+      let formdata = new FormData();
+      formdata.append("file", event.target.files[0]);
+      let { data: res } = await this.$http.add_img(formdata);
+      let path = res.data.path;
+      let { data: re } = await this.$http.ok_up_user({ avatar: path });
+      if (re.code == 200) {
+        this.userinfo();
+        this.show = false;
+      }
     },
   },
 };
@@ -138,6 +165,21 @@ ul {
     width: 100%;
     height: 1px;
     background-color: #f5f5f5;
+  }
+}
+.pho {
+  > li {
+    position: relative;
+    width: 100%;
+    display: block;
+    text-align: center;
+    line-height: 13.33333vw;
+    > input {
+      position: absolute;
+      opacity: 0;
+      left: 0;
+      top: 0;
+    }
   }
 }
 </style>

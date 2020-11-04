@@ -21,5 +21,9 @@ export default {
 };
 </script>
 
-<style scoped lang>
+<style>
+.van-dropdown-menu__bar {
+  height: 100% !important;
+  box-shadow: none !important;
+}
 </style>

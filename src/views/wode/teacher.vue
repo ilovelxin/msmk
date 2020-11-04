@@ -17,7 +17,7 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <div class="list-item" v-for="item in list" :key="item.teacher_id" @click.capture="$router.push(`/teacher?id=${item.teacher_id}`)">
+        <div class="list-item" v-for="item in list" :key="item.teacher_id" @click="$router.push(`/teacher?id=${item.teacher_id}`)">
           <img :src="item.avatar" alt="" />
           <div class="info">
             <p class="name">
@@ -28,7 +28,7 @@
               {{ item.introduction }}
             </p>
           </div>
-          <p @click.self="cancel(item.collect_id)">取消关注</p>
+          <p @click.stop="cancel(item.collect_id)">取消关注</p>
         </div>
       </van-list>
     </div>

@@ -13,10 +13,10 @@
         <img :src="tc_obj.teacher.avatar" alt="" />
         <div>
           <p>
-            <span>{{ tc_obj.teacher.real_name }}</span
-            ><font>M10</font>
+            <span>{{ tc_obj.teacher.teacher_name }}</span
+            ><font>{{tc_obj.teacher.level_name}}</font>
           </p>
-          <p>男&emsp;{{ tc_obj.teacher.introduction }}</p>
+          <p><font v-if="tc_obj.teacher.sex==0">男</font><font v-if="tc_obj.teacher.sex==1">女</font>&emsp;教龄{{ tc_obj.teacher.teach_age }}</p>
         </div>
         <button v-if="tc_obj.flag == 2" @click="guan(tc_obj.flag)">关注</button>
         <p v-if="tc_obj.flag != 2" @click="guan(tc_obj.flag)">已关注</p>
@@ -27,9 +27,13 @@
         <van-tabs v-model="active" color="#eb6100" title-active-color="#eb6100">
         <van-tab title="讲师介绍">
           <ul>
+            <li v-for="(item,index) in tc_info.attr" :key="index">
+              <span>{{item.attr_name}}</span>
+              <font>{{item.attr_value[0].attr_value_name}}</font>
+            </li>
             <li>
-              <span>教龄</span>
-              <font>30年</font>
+              <span>讲师介绍</span>
+              <font>{{tc_info.intro}}</font>
             </li>
           </ul>
         </van-tab>
@@ -39,6 +43,7 @@
               class="ii-item"
               v-for="item in co_obj.list"
               :key="item.id"
+              @click="$router.push(`/kecheng?id=${item.id}`)"
             >
               <p class="ii-title">
                 {{ item.title }}
@@ -57,7 +62,7 @@
                   >{{ item.price }}.00</font
                 >
               </p>
-              <img :src="item.cover_img" alt="" />
+              <img src="https://wap.365msmk.com/img/has-buy.6cfbd83d.png" alt="" v-if="item.has_buy!=0"/>
             </div>
           </div>
           <van-empty description="暂无课程" v-if="leg == 0" />
@@ -82,6 +87,7 @@ export default {
       tc_obj: {}, // 讲师信息
       co_obj: [], // 主讲课程
       leg: 0,
+      tc_info:{}, // 讲师介绍
     };
   },
   created() {},
@@ -89,13 +95,19 @@ export default {
     this.id = this.$route.query.id;
     this.tc();
     this.course();
+    this.tc_in()
   },
   methods: {
     // 讲师信息
     async tc() {
       let { data: res } = await this.$http.teacher(this.id);
       this.tc_obj = res.data;
-      console.log(res);
+    },
+    // 讲师介绍
+    async tc_in() {
+      let { data: res } = await this.$http.teacher_info(this.id);
+      this.tc_info=res.data;
+      console.log(this.tc_info);
     },
     // 讲师主讲课程
     async course() {
@@ -111,7 +123,6 @@ export default {
     // 关注老师
     async guan(flag) {
       let { data: res } = await this.$http.collect(this.id);
-      console.log(res);
       this.tc();
     },
   },
