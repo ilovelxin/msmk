@@ -51,6 +51,9 @@ const http = {
         return axios.get(`/api/app/courseBasis?page=${data.page}&limit=${data.limit}&course_type=${data.course_type}&classify_id=${data.classify_id}&order_by=${data.order_by}&attr_val_id=${data.attr_val_id}&is_vip=${data.is_vip}&`)                               // 获取所有课程
     },
     users(data) {
+        return axios.get(`/api/app/getUCenterInfo?`)                               // 用户信息
+    },
+    userInfo(data) {
         return axios.get(`/api/app/userInfo?`)                               // 用户信息
     },
     my_teacher(data) {

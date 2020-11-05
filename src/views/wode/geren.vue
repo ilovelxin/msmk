@@ -94,7 +94,7 @@ export default {
   methods: {
     // 个人信息获取
     async userinfo() {
-      let { data: res } = await this.$http.users();
+      let { data: res } = await this.$http.userInfo();
       this.user = res.data;
       console.log(this.user);
     },
