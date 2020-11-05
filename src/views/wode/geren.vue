@@ -24,30 +24,44 @@
       </li>
       <li @click="$router.push(`/sex?sex=${user.sex}`)">
         <span>性别</span>
-        <span v-if="user.sex==0">男</span>
+        <span v-if="user.sex == 0">男</span>
         <span v-else>女</span>
       </li>
       <li>
         <span>出生日期</span>
-        <span v-if="user.birthday!=0">{{user.birthday}}</span>
+        <span v-if="user.birthday != 0">{{ user.birthday }}</span>
         <span v-else>请选择</span>
       </li>
-      <li>
+      <li @click="area_show = true">
         <span>所在城市</span>
-        <span v-if="user.province_name!=''">{{user.province_name}}，{{user.city_name}}，{{user.district_name}}</span>
+        <span v-if="user.province_name != ''"
+          >{{ user.province_name }}，{{ user.city_name }}，{{
+            user.district_name
+          }}</span
+        >
         <span v-else>请选择</span>
       </li>
       <li>
         <span>学科</span>
-        <span><font v-for="item in user.attr" :key="item.attr_val_id" v-show="item.attr_id==2">{{item.attr_value}},</font></span>
+        <span
+          ><font
+            v-for="item in user.attr"
+            :key="item.attr_val_id"
+            v-show="item.attr_id == 2"
+            >{{ item.attr_value }},</font
+          ></span
+        >
       </li>
       <li>
         <span>年级</span>
-        <span v-if="user.attr[0].attr_id==1">{{user.attr[0].attr_value}}</span>
+        <span v-if="user.attr[0].attr_id == 1">{{
+          user.attr[0].attr_value
+        }}</span>
         <span v-else>请选择</span>
       </li>
     </ul>
 
+    <!-- 修改头像 -->
     <van-action-sheet v-model="show" cancel-text="取消" close-on-click-action>
       <ul class="pho">
         <li>
@@ -71,6 +85,18 @@
         </li>
       </ul>
     </van-action-sheet>
+
+    <!-- 修改所在城市 -->
+    <van-popup v-model="area_show" position="bottom" :style="{ height: '55%' }">
+      <van-area
+        title=""
+        :area-list="area_list"
+        v-show="area_show"
+        @change="change_area"
+        @confirm="ok"
+        :value="user.province_id+user.city_id+user.district_id"
+      />
+    </van-popup>
   </div>
 </template>
 
@@ -83,13 +109,18 @@ export default {
   components: { appHeader },
   data() {
     return {
-      show: false,
+      area_list: {}, //  所有城市
+      show: false, //  修改头像
+      area_show: false, // 修改城市
       user: {}, // 用户信息
+      province_list: {}, // 省
+      code: 0,
     };
   },
   created() {},
   mounted() {
     this.userinfo();
+    this.areaList(1);
   },
   methods: {
     // 个人信息获取
@@ -98,6 +129,7 @@ export default {
       this.user = res.data;
       console.log(this.user);
     },
+    // 修改头像
     async takePhoto() {
       let formdata = new FormData();
       formdata.append("file", event.target.files[0]);
@@ -108,6 +140,54 @@ export default {
         this.userinfo();
         this.show = false;
       }
+    },
+    // 获取所有城市
+    async areaList(a) {
+      let { data: res } = await this.$http.areaList(this.code);
+      if (a == 1) {
+        let province_list = {};
+        res.data.map((item) => {
+          this.$set(province_list, item.id, item.area_name);
+        });
+        this.$set(this.area_list, "province_list", province_list);
+      } else if (a == 2) {
+        let city_list = {};
+        res.data.map((item) => {
+          this.$set(city_list, item.id, item.area_name);
+        });
+        this.$set(this.area_list, "city_list", city_list);
+      } else {
+        let county_list = {};
+        res.data.map((item) => {
+          this.$set(county_list, item.id, item.area_name);
+        });
+        this.$set(this.area_list, "county_list", county_list);
+      }
+      // console.log(this.area_list);
+    },
+    // 修改城市
+    change_area(a, b) {
+      console.log(b);
+      if (b[1] == undefined) {
+        this.code = b[0].code;
+        this.areaList(2);
+      } else {
+        this.code = b[1].code;
+        this.areaList(3);
+      }
+    },
+    // 确认修改城市
+    async ok(a) {
+      this.area_show=false
+      let obj = {};
+      obj.province_id = a[0].code;
+      obj.city_id = a[1].code;
+      obj.district_id = a[2].code;
+      let { data: res } = await this.$http.ok_up_user(obj);
+      if(res.code!=200){
+        Toast(res.msg)
+      }
+      this.userinfo();
     },
   },
 };

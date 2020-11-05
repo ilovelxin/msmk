@@ -11,7 +11,7 @@
                 :src="user.avatar"
                 alt=""
               />
-              <img src="" alt="" class="vip" />
+              <img src="https://wap.365msmk.com/img/%E7%9A%87%E5%86%A0-2%20%E6%8B%B7%E8%B4%9D@2x.ca9087bc.png" alt="" class="vip" />
             </div>
             <div class="extra">
               <p class="name"><span>{{user.nickname}}</span></p>
@@ -36,7 +36,7 @@
             <p class="note">查看剩余学习币</p>
           </div>
         </div>
-        <div class="to-set"><span>去约课</span></div>
+        <div class="to-set" @click="$router.push('/yueke')"><span>去约课</span></div>
       </div>
     </div>
     <div class="to-share">

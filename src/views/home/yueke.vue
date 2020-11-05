@@ -10,7 +10,7 @@
       <van-tab title="待上课">
         <div>
           <van-empty description="还没有待上课的记录哦">
-            <van-button type="warning" class="bottom-button">
+            <van-button type="warning" class="bottom-button" @click="$router.push('/oto')">
               立即约课
             </van-button>
           </van-empty>
@@ -19,7 +19,7 @@
       <van-tab title="已上课">
         <div>
           <van-empty description="还没有上课记录哦">
-            <van-button type="warning" class="bottom-button">
+            <van-button type="warning" class="bottom-button" @click="$router.push('/oto')">
               立即约课
             </van-button>
           </van-empty>

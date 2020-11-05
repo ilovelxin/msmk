@@ -51,7 +51,7 @@ const http = {
         return axios.get(`/api/app/courseBasis?page=${data.page}&limit=${data.limit}&course_type=${data.course_type}&classify_id=${data.classify_id}&order_by=${data.order_by}&attr_val_id=${data.attr_val_id}&is_vip=${data.is_vip}&`)                               // 获取所有课程
     },
     users(data) {
-        return axios.get(`/api/app/getUCenterInfo?`)                               // 用户信息
+        return axios.get(`/api/app/getUCenterInfo?`)                               // 用户信息修改
     },
     userInfo(data) {
         return axios.get(`/api/app/userInfo?`)                               // 用户信息
@@ -83,7 +83,18 @@ const http = {
     ok_up_user(data) {
         return axios.put("/api/app/user", data)                           // 修改信息
     },
-
+    video(data) {
+        return axios.get(`/api/app/getPlayToken/video_id=${data.video_id}/course_id=${data.id}?`)    // 获取视频token                        // 修改信息
+    },
+    serach(data) {
+        return axios.get(`/api/app/courseBasis`, { params: data })    // 搜索课程                
+    },
+    areaList(data) {
+        return axios.get(`/api/app/sonArea/${data}?`)    //获取所有城市                     
+    },
+    getClass(data) {
+        return axios.get(`/api/app/module/attribute/1`)    //获取所有年级              
+    },
 }
 
 // 默认导出

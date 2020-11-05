@@ -10,8 +10,8 @@
     </app-header>
 
     <!-- 下拉菜单 -->
-    <div class="select">
-      <van-dropdown-menu ref="DropdownItem">
+    <div class="select" >
+      <van-dropdown-menu ref="DropdownItem" >
         <van-dropdown-item title="分类">
           <div class="prent-box">
             <div class="tm-kind">

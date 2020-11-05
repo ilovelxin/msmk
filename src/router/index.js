@@ -28,7 +28,7 @@ const routes = [
   { path: "/logins", name: "验证码登录", component: () => import('../views/login/Logins'), meta: { title: "验证码登录" } },
   { path: "/shezhi", name: "设置", component: () => import('../views/wode/shezhi'), meta: { title: "设置" } },
   { path: "/uppwd", name: "修改密码", component: () => import('../views/login/uppwd'), meta: { title: "设置密码" } },
-  { path: "/geren", name: "个人信息", component: () => import('../views/wode/geren'), meta: { title: "个人信息" } },
+  { path: "/geren", name: "个人信息", component: () => import('../views/wode/info'), meta: { title: "个人信息" } },
   { path: "/teacher", name: "讲师详情", component: () => import('../views/shouye/teacher'), meta: { title: "讲师详情" } },
   { path: "/kecheng", name: "课程详情", component: () => import('../views/shouye/kecheng'), meta: { title: "课程详情" } },
   { path: "/my-collent", name: "我的收藏", component: () => import('../views/wode/collent'), meta: { title: "我的收藏" } },
@@ -39,6 +39,8 @@ const routes = [
   { path: "/my-study", name: "我的学习", component: () => import('../views/wode/myStudy'), meta: { title: "我的学习" } },
   { path: "/set-name", name: "修改用户名", component: () => import('../views/wode/setname'), meta: { title: "修改用户名" } },
   { path: "/sex", name: "修改性别", component: () => import('../views/wode/sex'), meta: { title: "修改性别" } },
+  // { path: "/oto", name: "一对一辅导", component: () => import('../views/yueke/oto.vue'), meta: { title: "一对一辅导" } },
+  { path: "/set-info", name: "修改信息", component: () => import('../views/wode/set-info.vue'), meta: { title: "修改个人信息" } },
 ]
 
 const router = new VueRouter({

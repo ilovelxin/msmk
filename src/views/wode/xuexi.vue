@@ -29,7 +29,12 @@
     </div>
     <!-- 内容 -->
     <div class="content">
-      <div class="item" v-for="item in study_obj.periods" :key="item.id">
+      <div
+        class="item"
+        v-for="item in study_obj.periods"
+        :key="item.id"
+        @click="video(item.video_id, item.periods_title)"
+      >
         <div class="title">
           <span>{{ item.periods_title }}</span>
         </div>
@@ -142,21 +147,30 @@ export default {
       console.log(res);
       if (res.code == 200) {
         Toast("评论成功");
-        this.study()
-      }else{
-          Toast(res.msg)
+        this.study();
+      } else {
+        Toast(res.msg);
       }
     },
     // 移除课程
-    async cancle(){
-        let {data:res} = await this.$http.myStudy_course(this.id)
-        if(res.code!=200){
-            Toast(res.msg)
-            return false
-        }
-        Toast("移除成功")
-       this.$router.go(-1)
-    }
+    async cancle() {
+      let { data: res } = await this.$http.myStudy_course(this.id);
+      if (res.code != 200) {
+        Toast(res.msg);
+        return false;
+      }
+      Toast("移除成功");
+      this.$router.go(-1);
+    },
+    async video(video_id, title) {
+      let { data: res } = await this.$http.video({ video_id, id: this.id });
+      console.log(res);
+      if (res.data.length == 0) {
+        Toast("该课程没有回放视频");
+      } else {
+        window.location.href = `https://wap.365msmk.com/video?id=${this.id}&video_id=${video_id}&title=${title}`;
+      }
+    },
   },
 };
 </script>

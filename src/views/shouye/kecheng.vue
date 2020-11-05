@@ -111,9 +111,12 @@
     </div>
     <!-- 报名 -->
     <div class="btn">
-      <span v-if="co_obj.info.is_buy == 0" @click="baoming"
-        >立即报名</span
-      ><span v-if="co_obj.info.is_buy != 0" @click="$router.push(`/xuexi-info?id=${co_obj.info.id}`)">立即学习</span>
+      <span v-if="co_obj.info.is_buy == 0" @click="baoming">立即报名</span
+      ><span
+        v-if="co_obj.info.is_buy != 0"
+        @click="$router.push(`/xuexi-info?id=${co_obj.info.id}`)"
+        >立即学习</span
+      >
     </div>
 
     <van-overlay :show="show" @click="show = false">
