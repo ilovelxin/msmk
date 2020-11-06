@@ -35,7 +35,7 @@
         </p>
       </header>
       <div class="list">
-        <span v-for="(item, index) in unSearch" :key="index">{{ item }}</span>
+        <span v-for="(item, index) in unSearch" :key="index" @click="un_ser(item)">{{ item }}</span>
       </div>
     </div>
 
@@ -138,7 +138,7 @@ export default {
       this.limit += 2;
       this.serach();
       // 加载状态结束
-      if (this.loading.length >= this.total) {
+      if (this.list.length >= this.total) {
         this.finished = true; //  全部加载完成显示加载完成
       }
     },
@@ -147,6 +147,12 @@ export default {
       this.unSearch = [];
       sessionStorage.clear("unSearch");
     },
+    // 历史搜索记录
+    un_ser(val){
+      this.text=val
+      this.show=true
+      this.serach_btn()
+    }
   },
 };
 </script>
