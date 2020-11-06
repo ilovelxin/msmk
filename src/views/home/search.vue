@@ -35,7 +35,12 @@
         </p>
       </header>
       <div class="list">
-        <span v-for="(item, index) in unSearch" :key="index" @click="un_ser(item)">{{ item }}</span>
+        <span
+          v-for="(item, index) in unSearch"
+          :key="index"
+          @click="un_ser(item)"
+          >{{ item }}</span
+        >
       </div>
     </div>
 
@@ -124,10 +129,17 @@ export default {
     // 搜索
     serach_btn() {
       this.con_show = true;
-      if (this.unSearch.length < 5) {
+      let index = this.unSearch.indexOf(this.text) == -1;
+      if (index == -1) {
         this.unSearch.unshift(this.text);
+        if (this.unSearch.length < 5) {
+          this.unSearch.unshift(this.text);
+        } else {
+          this.unSearch.splice(this.unSearch.length - 1, 1);
+          this.unSearch.unshift(this.text);
+        }
       } else {
-        this.unSearch.splice(this.unSearch.length - 1, 1);
+        this.unSearch.splice(index, 1);
         this.unSearch.unshift(this.text);
       }
       sessionStorage.setItem("unSearch", JSON.stringify(this.unSearch));
@@ -148,11 +160,11 @@ export default {
       sessionStorage.clear("unSearch");
     },
     // 历史搜索记录
-    un_ser(val){
-      this.text=val
-      this.show=true
-      this.serach_btn()
-    }
+    un_ser(val) {
+      this.text = val;
+      this.show = true;
+      this.serach_btn();
+    },
   },
 };
 </script>
