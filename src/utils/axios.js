@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Toast } from 'vant';
-// axios.defaults.withCredentials = true;//配置为true
+import $router from '../router/index'
+
 import {
     Guid
 } from '../js/guid'
@@ -20,16 +21,20 @@ instance.interceptors.request.use((config) => {
     }
     config.headers.deviceid = guid
     config.headers.devicetype = 'H5'
-    Toast.loading({
-        message: '加载中...',
-        forbidClick: true,
-    });
+    // Toast.loading({
+    //     message: '加载中...',
+    //     forbidClick: true,
+    // });
     return config
 })
 // 响应拦截器
 instance.interceptors.response.use((res) => {
     if (res.data.code == 200) {
-        Toast.clear()
+        // Toast.clear()
+    }
+    if(res.data.code==202){
+        $router.push('/login')
+        Toast("未登录或登录超时")
     }
     return res
 })

@@ -1,16 +1,16 @@
 <template>
   <div class="zb_oto">
-    <van-sticky>
-      <header>
-        <div class="back" @click="$router.go(-1)">
-          <van-icon name="arrow-left" />
-        </div>
-        <h3>一对一辅导</h3>
-        <div class="right" @click="$router.push('/search')">
-          <van-icon name="search" />
-        </div>
-      </header>
-    </van-sticky>
+    <!-- 头部 -->
+    <app-header>
+      <div slot="left" @click="$router.go(-1)">
+        <van-icon name="arrow-left" />
+      </div>
+      <div slot="title">一对一辅导</div>
+      <div slot="right" @click="$router.push('/search')">
+        <van-icon name="search" />
+      </div>
+    </app-header>
+
     <!-- 下拉菜单 -->
     <div class="of-head">
       <div
@@ -92,7 +92,7 @@
             shape="square"
             size=".3rem"
           >
-            已关注
+            <font style="font-size: 3.4667vw; color: #8c8c8c">已关注的</font>
             <template #icon="props">
               <img
                 class="img-icon"
@@ -111,8 +111,7 @@
             "
             name="b"
             shape="square"
-            size=".3rem"
-            >上过课的
+            ><font style="font-size: 3.4667vw; color: #8c8c8c">上过课的</font>
             <template #icon="props">
               <img
                 class="img-icon"
@@ -166,19 +165,19 @@
     <div class="a" v-show="!flag && !flags">
       <div
         class="zb_otItem"
-        @click="$router.push('/oto-plan?id=' + item.teacher_id)"
+        @click="token ? $router.push('/oto-plan?id=' + item.teacher_id) : ''"
         v-for="item in list"
         :key="item.teacher_id"
       >
-        <van-image round width=".8rem" height=".8rem" :src="item.avatar" />
+        <img :src="item.avatar" alt="" />
         <div>
           <p>
             <span>{{ item.real_name }} </span>
-            <span class="sp"> {{ item.is_collect == 0 ? "" : "已关注" }}</span>
+            <font class="sp"> {{ item.is_collect == 0 ? "" : "已关注" }}</font>
           </p>
           <p>{{ item.sex == 0 ? "男" : "女" }} {{ item.teach_age }}年教龄</p>
         </div>
-        <div class="yuyue">预约</div>
+        <p class="yuyue">预约</p>
       </div>
     </div>
   </div>
@@ -186,19 +185,20 @@
 
 <script>
 import { Toast } from "vant";
-
+import appHeader from "../../components/Header";
 export default {
   // 组件名称
   name: "demo",
   // 组件参数 接收来自父组件的数据
   props: [],
   // 局部注册的组件
-  components: {},
+  components: { appHeader },
   // 组件状态值
   data() {
     return {
       // 日期
-      currentTime:'',
+      token: sessionStorage.getItem("token") || "",
+      currentTime: "",
       show: false,
       list: [],
       obj: {},
@@ -253,7 +253,6 @@ export default {
     act(index) {
       this.index = index;
       this.arr.level_id = index;
-      console.log(this.arr);
     },
     // 年级
     acti(index) {
@@ -292,10 +291,10 @@ export default {
     async getList() {
       this.flag = false;
       this.flags = false;
-      let { data } = await getCourse(this.arr);
+      let { data } = await this.$http.getCourse(this.arr);
       this.list = data.data;
       // console.log(this.list);
-      let { data: res } = await getOtoCourseOptions();
+      let { data: res } = await this.$http.getOtoCourseOptions();
       this.obj = res.data;
       // console.log(this.obj);
     },
@@ -308,7 +307,62 @@ export default {
 </script> 
 
 <style lang="scss" scoped>
-// 日期
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.block {
+  width: 75.46667vw;
+  height: 92.13333vw;
+  background: #fff;
+  border-radius: 4vw;
+  position: relative;
+  text-align: center;
+  > img {
+    width: 100%;
+    height: 60%;
+    border-radius: 4vw;
+  }
+  > i {
+    width: 3.2vw;
+    height: 3.2vw;
+    position: absolute;
+    top: 3.06667vw;
+    right: 3.46667vw;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAiCAYAAAA+stv/AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MzAyRDRBRjhGQzM0MTFFOEE5MjE5OENFRDA4QUUwMkEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MzAyRDRBRjdGQzM0MTFFOEE5MjE5OENFRDA4QUUwMkEiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDowRDA2NDMwNEQ2N0ExMUU4ODMwNEUwOEE3QzA3NDUwOSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDowRDA2NDMwNUQ2N0ExMUU4ODMwNEUwOEE3QzA3NDUwOSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pg9KkA8AAAKQSURBVHjaxJjbS1RRFMbPbKbUMughSDHoghJ2wxuIQT4kZJmZ4lB/RmFa/gveKfBheuoiaN6CHgq0Hn3wIUip1MGm20tQPYb4EOO34hvYHc7MOXvPnHHDz9ly9uy99lrrrI81kVQq5ezmiMTj8YP4bALfwIcCnXsRbINlhT+t4DmYBmcLcHgXmCNVYsBvUAROgRlQHeLhl8FjIF7/A7bEgNfgFhecBC9D8kQbL3gAJMBV8EXx4QNwh/NjYBE05Nnt86AUfASXwLo8UNqiUdDP+WEwC2rzcHg3mGKY5eYx8DX9ULkWD2ieOAqegdM5HN4OHoG9IAlugDV9gfL40qiWE1XgBRPUdFwBk3R7ksasuBepDF+WnOjh/AR4A+oMDu/QYi43bnHf3M8AGWPgLudl9ER9gMNjzPZiJlqnZHumxcpnsyHQy3kFk+lMlvXXwRPG/BO4ycRzbA2QMQJuc17JqlmdIeZPQQlvLDdf9dtcBYzpfZcRC6DGle2zLDIbjPn7IBtHDRJLjNjDsBwBr0Az53N0uxSZa8x6J98GyBim1waYmAvMdDl8kzFPmmwYtXi/B8FPMM6y7fBwkdjvppspywr3GfzV/t+mF5xCGNBFxRTX/6KsSrleshEwUwPSwlLC97tRq5hWAmZigJewyOfDXAQsqAF+wmItYEEMCCosVgLmZ4CRsNgImMqnsNgImMoSc2NhsRAwTwOshcVQwDwNiFFY9lFY2kxru4cRfZynBaw+kwFS4SZyEZYsAnZPS8z/OjDl6liKGPOYpduzCZj+is6wCfpnwAUt5gn2iishdEZjrg5MKuZxMaAc7Nc6loQT3tA7sHPgUJSvyHnwQ+9YQhxStt9SRd9FdvsHih0BBgAvyZ5zZX2xCwAAAABJRU5ErkJggg==);
+    background-size: 100%;
+    background-position: 50%;
+  }
+  > .login-text {
+    font-size: 4vw;
+    font-weight: 500;
+    color: #333;
+    line-height: 5.86667vw;
+  }
+  > .login-message {
+    font-size: 3.2vw;
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: #999;
+    line-height: 0.50667rem;
+    line-height: 5.06667vw;
+  }
+  > span {
+    display: inline-block;
+    width: 62.93333vw;
+    height: 10.66667vw;
+    background: #eb6100;
+    border-radius: 5.33333vw;
+    font-size: 4vw;
+    font-weight: 400;
+    color: #fff;
+    line-height: 10.66667vw;
+    margin-top: 7.6vw;
+  }
+}
 .time {
   margin: 2.66667vw;
   > div {
@@ -349,7 +403,6 @@ export default {
         align-items: center;
         justify-content: space-between;
         box-sizing: border-box;
-        padding: 0 0.2rem;
         input {
           border: none;
           width: 26.66667vw;
@@ -357,6 +410,9 @@ export default {
           line-height: 6.66667vw;
           font-size: 3.46667vw;
           padding-left: 2.66667vw;
+        }
+        i.van-icon.van-icon-clock-o {
+          margin-right: 0.05rem;
         }
       }
       font {
@@ -411,11 +467,13 @@ export default {
   }
 }
 .img-icon {
-  height: 0.3rem;
+  width: 4vw;
+  height: 4vw;
 }
 .zb_oto {
   height: 100%;
   background-color: #f0f2f5;
+
   header {
     height: 0.88rem;
     line-height: 11.73333vw;
@@ -435,38 +493,57 @@ export default {
       font-size: 0.3rem;
     }
   }
+  .a {
+    padding: 0 2.66667vw;
+  }
   //   列表样式
   .zb_otItem {
-    width: 95%;
-    height: 1.62rem;
-    margin: 0.1rem auto;
-    background: #fff;
     display: flex;
-    justify-content: space-around;
     align-items: center;
-    border-radius: 0.1rem;
-    div {
-      width: 4rem;
-      p {
-        color: #b7b7b7;
-        font-size: 3.2vw;
-        span {
-          font-size: 0.33rem;
+    padding: 0 4vw;
+    background: #fff;
+    border-radius: 1.06667vw;
+    height: 21.6vw;
+    margin-top: 2.66667vw;
+    > img {
+      width: 10.66667vw;
+      height: 10.66667vw;
+      margin-right: 3.2vw;
+      border-radius: 50%;
+      flex: none;
+    }
+    > div {
+      flex: 1;
+      > p:nth-child(1) {
+        > span {
+          font-size: 4vw;
           color: #595959;
+          line-height: 0.56rem;
+          line-height: 5.6vw;
+          padding-right: 0.13333rem;
+          padding-right: 1.33333vw;
         }
-        .sp {
+        > font {
           font-size: 2.93333vw;
           color: #ea7a2f;
         }
       }
+      > p:nth-child(2) {
+        font-size: 3.2vw;
+        color: #b7b7b7;
+        line-height: 0.45333rem;
+        line-height: 4.53333vw;
+      }
     }
     .yuyue {
-      width: 1.4rem;
-      height: 0.62rem;
-      line-height: 0.62rem;
+      flex: none;
+      width: 18.66667vw;
+      height: 8.26667vw;
+      line-height: 8.26667vw;
       background: #ebeefe;
-      border-radius: 0.6rem;
+      border-radius: 4.13333vw;
       font-size: 3.73333vw;
+      font-family: PingFangSC-Regular;
       font-weight: 400;
       color: #eb6100;
       border: none;

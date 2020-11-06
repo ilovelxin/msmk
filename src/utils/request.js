@@ -84,7 +84,7 @@ const http = {
         return axios.put("/api/app/user", data)                           // 修改信息
     },
     video(data) {
-        return axios.get(`/api/app/getPlayToken/video_id=${data.video_id}/course_id=${data.id}?`)    // 获取视频token                        // 修改信息
+        return axios.get(`/api/app/getPlayToken/video_id=${data.video_id}/course_id=${data.id}?`)    // 获取视频token           
     },
     serach(data) {
         return axios.get(`/api/app/courseBasis`, { params: data })    // 搜索课程                
@@ -94,6 +94,18 @@ const http = {
     },
     getClass(data) {
         return axios.get(`/api/app/module/attribute/1`)    //获取所有年级              
+    },
+    getCourse(data) {                                      //  一对一辅导
+        return axios.get(`/api/app/otoCourse?page=${data.page}&limit=${data.limit}&start_time=${data.start_time}&end_time=${data.end_time}&level_id=${data.level_id}&is_collect=${data.is_collect}&is_attended=${data.is_attended}&sex=${data.sex}&attr_val_id=${data.attr_val_id}`)    //获取所有年级              
+    },
+    getOtoCourseOptions(data) {    
+        return axios.get(`/api/app/otoCourseOptions`)                                  //  一对一辅导下拉菜单
+    },
+    my_order(data) {    
+        return axios.post(`/api/app/myOrder`,data)                                  //  课程订单
+    },
+    feedback(data) {    
+        return axios.post(`/api/app/feedback`,data)                                  //  意见反馈
     },
 }
 
