@@ -11,8 +11,8 @@
 
     <!-- 下拉菜单 -->
     <div class="select" >
-      <van-dropdown-menu ref="DropdownItem" >
-        <van-dropdown-item title="分类">
+      <van-dropdown-menu  >
+        <van-dropdown-item title="分类" ref="fenlei">
           <div class="prent-box">
             <div class="tm-kind">
               <p>{{ obj.attrclassify[0].name }}</p>
@@ -56,7 +56,7 @@
       </van-dropdown-menu>
 
       <van-dropdown-menu>
-        <van-dropdown-item title="筛选">
+        <van-dropdown-item title="筛选" ref="shaixuan">
           <div class="shai">
             <span
               v-for="item in options2"
@@ -198,6 +198,7 @@ export default {
     // 选择第三个参数
     change2(value) {
       this.active3 = value;
+      this.$refs.shaixuan.toggle()
       if (value == 11) {
         this.basis_obj.course_type = "";
         this.basis_obj.is_vip = 1;
@@ -222,7 +223,7 @@ export default {
       let str = this.attr_arr_id.join(",");
       this.basis_obj.attr_val_id = str;
       this.coursebasis();
-      console.log(this.$refs.DropdownItem);
+      this.$refs.fenlei.toggle()
     },
     // 清空参数
     clear() {

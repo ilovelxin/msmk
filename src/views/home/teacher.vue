@@ -64,7 +64,7 @@
                 <span>{{ item.sales_num }}人已报名</span>
                 <font style="color: #44a426" v-if="item.price == 0">免费</font>
                 <font style="color: red" v-if="item.price != 0"
-                  >{{ item.price }}.00</font
+                  >{{ item.price /100}}.00</font
                 >
               </p>
               <img

@@ -131,7 +131,6 @@ export default {
       this.con_show = true;
       let index = this.unSearch.indexOf(this.text) == -1;
       if (index == -1) {
-        this.unSearch.unshift(this.text);
         if (this.unSearch.length < 5) {
           this.unSearch.unshift(this.text);
         } else {
