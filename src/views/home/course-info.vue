@@ -200,8 +200,8 @@ export default {
           this.co();
         }
       } else {
-        let { data:res } = await this.$http.cel_col(id);
-        if (res.code == 200) {
+        let { data } = await this.$http.cel_col(id);
+        if (data.code == 200) {
           Toast("已取消");
           this.co();
         }
