@@ -83,7 +83,7 @@
           class="item"
           v-for="item in list"
           :key="item.id"
-          @click="$router.push(`/kecheng?id=${item.id}`)"
+          @click="$router.push(`/kecheng?id=${item.id}&type=3`)"
         >
           <p class="title">
             <font>{{ item.title }}</font>

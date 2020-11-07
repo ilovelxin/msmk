@@ -35,6 +35,9 @@ const http = {
     courese(data) {
         return axios.get(`/api/app/courseInfo/basis_id=${data}`)                        // 课程详细信息
     },
+    courseChapter(data) {
+        return axios.post(`/api/app/courseChapter`,data)                        // 课程回放
+    },
     co_com(data) {
         return axios.post(`/api/app/courseComment`, data)                               // 课程评价
     },
@@ -66,7 +69,7 @@ const http = {
         return axios.post(`/api/app/order/downOrder`, data)                           // 课程报名
     },
     xuexi_info(data) {
-        return axios.get(`/api/app/myStudy/course/${data}`)                           // 立即详情
+        return axios.get(`/api/app/myStudy/course/${data}`)                           // 学习详情
     },
     myStudy_comment(data) {
         return axios.post(`/api/app/myStudy/comment`, data)                           // 课程评价

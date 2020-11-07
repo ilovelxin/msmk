@@ -5,7 +5,12 @@
       <div slot="left">
         <van-icon name="arrow-left" @click="$router.go(-1)" />
       </div>
-      <div slot="title">课程详情</div>
+      <div slot="title" v-if="!head_show">课程详情</div>
+      <div slot="title" v-else class="head_title">
+        <span :class="top<=336?'head_active':''" @click="cd_tro">课程介绍</span>
+        <span :class="top>336&&top<444?'head_active':''" @click="cd_list">课程大纲</span>
+        <span :class="top>=444?'head_active':''" @click="cd_comment">课程评价</span>
+      </div>
       <div slot="right" @click="show = true"><van-icon name="share-o" /></div>
     </app-header>
 
@@ -35,14 +40,14 @@
           style="color: #ee1f1f"
           v-if="co_obj.info.price != 0"
         >
-          ￥{{ co_obj.info.price /100}}.00
+          ￥{{ co_obj.info.price / 100 }}.00
         </p>
         <div>
           <p>
             共{{ co_obj.info.total_periods }}课时 |
             {{ co_obj.info.sales_num }}人已报名
           </p>
-          <p>
+          <p v-if="type == 3">
             开课时间：{{ co_obj.info.start_play_date | setTime }} -
             {{ co_obj.info.end_play_date | setTime }}
           </p>
@@ -52,32 +57,38 @@
       <div class="cd-teacher">
         <p>教学团队</p>
         <ul>
-          <li v-for="item in co_obj.teachers" :key="item.teacher_id">
+          <li
+            v-for="item in co_obj.teachers"
+            :key="item.teacher_id"
+            @click="$router.push(`/teacher?id=${item.teacher_id}`)"
+          >
             <img :src="item.teacher_avatar" alt="" />
             <span>{{ item.teacher_name }}</span>
           </li>
         </ul>
       </div>
       <!-- 课程介绍 -->
-      <div class="cd-tro">
+      <div class="cd-tro" ref="tro">
         <p>课程介绍</p>
         <div v-html="co_obj.info.course_details"></div>
       </div>
       <!-- 课程大纲 -->
-      <div class="cd-list">
+      <div class="cd-list" ref="list">
         <p>课程大纲</p>
-        <div>
-          <section>
+        <div v-for="item in courseChapter" :key="item.id">
+          <section @click="video(item.video_id)">
             <div>
-              <span>回放</span>
-              <font v-html="co_obj.info.course_details"></font>
+              <span v-if="type == 3">回放</span>
+              <font>{{ item.periods_title }}</font>
             </div>
-            <p>李青&emsp;<span>03月09日 18:30 - 19:30</span></p>
+            <p v-show="type == 3" v-for="t in item.teachers" :key="t.id">
+              李青&emsp;<span>{{ item.start_play }}-{{ item.end_play }}</span>
+            </p>
           </section>
         </div>
       </div>
       <!-- 课程评价 -->
-      <div class="cd-comment">
+      <div class="cd-comment" ref="comment">
         <p>课程评价</p>
         <div class="com-item">
           <div>
@@ -138,15 +149,21 @@ export default {
     return {
       value: 2,
       id: this.$route.query.id, // 课程id
+      type: this.$route.query.type,
       co_obj: {}, // 课程信息
       show: false, // 分享弹框
       co_comment: {}, // 课程评价
+      course_chapter: [], // 课程回放
+      head_show: false,
+      top:0,  // 页面滚动的高度
     };
   },
   created() {},
   mounted() {
     this.co();
     this.co_com();
+    this.courseChapter();
+    window.addEventListener("scroll", this.scroll);
   },
   methods: {
     //   获取课程详细信息
@@ -163,6 +180,12 @@ export default {
       };
       let { data: res } = await this.$http.co_com(obj);
       this.co_comment = res.data;
+    },
+    // 课程回放
+    async courseChapter() {
+      let { data: res } = await this.$http.courseChapter({ id: this.id });
+      this.courseChapter = res.data;
+      console.log(this.courseChapter);
     },
     // 课程收藏
     async co_col(flag, id) {
@@ -198,6 +221,40 @@ export default {
         Toast(res.msg);
       }
     },
+    // 课程回放视频
+    async video(video_id) {
+      let { data: res } = await this.$http.video({ video_id, id: this.id });
+      console.log(res);
+      if (res.data.length == 0) {
+        this.$toast("该课程没有回放视频");
+        return false;
+      }
+      window.location.href = `https://wap.365msmk.com/video?video_id=${res.data.video_id}&id=${this.id}`;
+    },
+    // 页面滚动
+    scroll() {
+      this.top = document.documentElement.scrollTop;
+      if (this.top > 10) {
+        this.head_show = true;
+      } else {
+        this.head_show = false;
+      }
+    },
+    cd_tro() {
+      let top = this.$refs.tro.offsetTop;
+      document.documentElement.scrollTop = top - 60;
+      console.log(top);
+    },
+    cd_list() {
+      let top = this.$refs.list.offsetTop;
+      document.documentElement.scrollTop = top - 60;
+      console.log(top);
+    },
+    cd_comment() {
+      let top = this.$refs.comment.offsetTop;
+      document.documentElement.scrollTop = top - 60;
+      console.log(top);
+    },
   },
   filters: {
     setTime(value) {
@@ -230,6 +287,22 @@ export default {
 </script>
 
 <style type="text/scss" scoped lang="scss" >
+.head_title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  > span {
+    flex: 1;
+    text-align: center;
+    font-size: 0.12rem;
+    color: #eee;
+  }
+  > .head_active {
+    color: #000;
+    font-size: 0.14rem;
+  }
+}
 .cd-body {
   margin-bottom: 11.8vw;
 }

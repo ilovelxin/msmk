@@ -48,7 +48,7 @@
               class="ii-item"
               v-for="item in co_obj.list"
               :key="item.id"
-              @click="$router.push(`/kecheng?id=${item.id}`)"
+              @click="$router.push(`/kecheng?id=${item.id}&type=5`)"
             >
               <p class="ii-title">
                 {{ item.title }}

@@ -64,7 +64,7 @@
               class="teacher-item"
               v-for="t in item.teachers_list"
               :key="t.id"
-              @click="$router.push(`/kecheng?id=${item.id}`)"
+              @click="$router.push(`/kecheng?id=${item.id}&type=5`)"
             >
               <img :src="t.teacher_avatar" alt="" />
               <font>{{ t.teacher_name }}</font>

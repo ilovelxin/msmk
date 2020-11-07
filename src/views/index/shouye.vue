@@ -88,7 +88,7 @@
             class="ii-item"
             v-for="t in item.list"
             :key="t.id"
-            @click="$router.push(`/kecheng?id=${t.id}`)"
+            @click="$router.push(`/kecheng?id=${t.id}&type=5`)"
           >
             <p class="ii-title">
               <font>{{ t.title }}</font>

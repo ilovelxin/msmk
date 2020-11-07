@@ -5,7 +5,7 @@
       class="item-list"
       v-for="item in list"
       :key="item.course_id"
-      @click="$router.push(`/kecheng?id=${item.course_id}`)"
+      @click="$router.push(`/kecheng?id=${item.course_id}&type=3`)"
     >
       <div class="content-icon">
         <van-icon
